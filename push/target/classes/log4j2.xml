@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration status="ERROR">
+    <Appenders>
+        <RollingFile name="errorRollingFile" fileName="/Users/biostime/Desktop/error/error.log"
+			filePattern="/Users/biostime/Desktop/error/$${date:yyyy-MM}/error-%d{MM-dd-yyyy}-%i.log.gz"
+			immediateFlush="true">
+			<ThresholdFilter level="error" onMatch="ACCEPT"
+				onMismatch="DENY" />
+			<PatternLayout pattern="[%d [%t] %p %c %m %ex]%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="100 MB" />
+			</Policies>
+			<!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了20 -->
+			<DefaultRolloverStrategy max="20"/>
+		</RollingFile>
+       
+        <!-- ${hostName}[%d [%t] %-5level %logger{36} - %msg]%n -->
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="[%d [%t] %p %c %m %ex]%n" />
+		</Console>
+
+    </Appenders>
+    <Loggers>
+        <logger name="org.springframework" level="INFO"/>
+        <logger name="org.hibernate" level="INFO"/>
+		<Root level="info" includeLocation="false">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="errorRollingFile" />
+		</Root>
+    </Loggers>
+</Configuration>
